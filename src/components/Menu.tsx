@@ -1,8 +1,10 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 type Item = {
   id: number;
   name: string;
+  path: string;
 };
 
 type MenuProps = {
@@ -18,45 +20,49 @@ function Menu({ items }: MenuProps) {
 
   if (isOpen)
     return (
-      <nav>
-        <ul>
-          {items.map((item) => (
-            <li key={item.id}>
-              <a href={}>{item.name}</a>
-            </li>
-          ))}
-        </ul>
-        <button onClick={toggleMenu} aria-label="Close Menu">
+      <nav className="flex flex-col test w-full gap-4">
+        <button
+          onClick={toggleMenu}
+          hidden={!isOpen}
+          aria-label="Close Menu"
+          className="text-3xl"
+        >
           ✕
         </button>
+        {items.map((item) => (
+          <Link
+            key={item.id}
+            onClick={toggleMenu}
+            className="btn btn-ghost"
+            to={item.path}
+          >
+            {item.name}
+          </Link>
+        ))}
       </nav>
     );
   else if (items.length === 0)
     return (
-      <nav>
+      <nav className="flex flex-col test w-full gap-4">
         <ul>
-          <li>
-            <a href="#home">Home</a>
-          </li>
-          <li>
-            <a href="#about">About</a>
-          </li>
-          <li>
-            <a href="#services">Services</a>
-          </li>
-          <li>
-            <a href="#contact">Contact</a>
-          </li>
+          {items.map((item) => (
+            <li key={item.id}>
+              <a href={`${item.path}`}>{item.name}</a>
+            </li>
+          ))}
         </ul>
       </nav>
     );
   else {
     return (
-      <button onClick={toggleMenu} aria-label="Open Menu">
+      <button
+        onClick={toggleMenu}
+        aria-label="Open Menu"
+        className="flex flex-col test w-full gap-4 text-3xl"
+      >
         ☰
       </button>
     );
   }
 }
 export default Menu;
-
