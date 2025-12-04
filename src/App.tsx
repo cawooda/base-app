@@ -8,10 +8,12 @@ import Home from './pages/Home';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import { menuItems } from './pages';
+import AuthWatcher from './features/auth/AuthWatcher';
 
 export default function App() {
   return (
     <ThemeProvider>
+      <AuthWatcher />
       <BrowserRouter>
         <header className="p-4 border-b mb-4 flex flex-col sm:flex-row sm:justify-between sm:items-center">
           <Menu items={menuItems} />
