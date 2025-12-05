@@ -12,6 +12,7 @@ node_modules
 
 # Misc
 .DS_Store
+firebase.config.ts
 .env
 .env.local
 .env.development.local
