@@ -1,21 +1,24 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../features/auth/AuthContext';
 
-type Item = {
+export type Item = {
   id: number;
   name: string;
   path: string;
+  element: React.ReactNode | Function;
+  //function resolving to boolean or boolean value
+  show: Function | boolean;
 };
 
-type MenuProps = {
-  items: Item[];
-};
+export type MenuProps = Item[];
 
-function Menu({ items }: MenuProps) {
+function Menu({ items }: { items: MenuProps }) {
+  const authContext = useAuth();
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => {
-    setIsOpen(!isOpen);
+    setIsOpen(authContext?.userLoggedIn ? !isOpen : false);
   };
 
   if (isOpen)
@@ -32,6 +35,7 @@ function Menu({ items }: MenuProps) {
         {items.map((item) => (
           <Link
             key={item.id}
+            hidden={typeof item.show === 'function' ? !item.show() : !item.show}
             onClick={toggleMenu}
             className="btn btn-ghost"
             to={item.path}
